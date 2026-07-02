@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DevOps Demo App</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 60px auto; text-align: center; }
+  button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+  #quote { margin-top: 20px; font-style: italic; font-size: 18px; min-height: 40px; }
+  #status { margin-top: 10px; color: green; font-size: 14px; }
+</style>
+</head>
+<body>
+  <h1>DevOps Demo App</h1>
+  <p>Frontend (static file) → Backend (Express API)</p>
+  <button onclick="getQuote()">Get Quote from API</button>
+  <div id="quote"></div>
+  <div id="status"></div>
+
+  <script>
+    async function getQuote() {
+      const quoteEl = document.getElementById('quote');
+      const statusEl = document.getElementById('status');
+      quoteEl.textContent = 'Loading...';
+      try {
+        const res = await fetch('/api/quote');
+        const data = await res.json();
+        quoteEl.textContent = '"' + data.quote + '"';
+        statusEl.textContent = 'Served at: ' + data.servedAt;
+      } catch (err) {
+        quoteEl.textContent = 'Error calling API';
+        statusEl.textContent = err.message;
+      }
+    }
+  </script>
+</body>
+</html>
