@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -21,5 +22,5 @@ jobs:
             --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy latest code" \
-            --parameters '{"commands":["cd /home/ubuntu/app","git pull origin main","npm install","pm2 restart all"]}' \
+            --parameters '{"commands":["cd /home/ubuntu/app","git fetch origin","git reset --hard origin/main","npm install","pm2 restart app || pm2 start server.js --name app","pm2 save"]}' \
             --timeout-seconds 120
