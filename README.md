@@ -67,10 +67,10 @@ Memory during test: 908MB total, 486MB used, 422MB available. CPU stayed well un
 Zero errors under load, but CPU stayed low while p95 latency trailed the average — pointing to Node's single-threaded event loop as the limiting factor, not raw compute.
 
 ## Optimization Recommendations
-1. Enable PM2 cluster mode to use all vCPUs
-2. Add Nginx as reverse proxy for compression/static files
-3. Move static assets to S3 + CloudFront
-4. Cache frequent API responses (Redis/in-memory)
-5. Scale up instance size or add ALB + Auto Scaling for production traffic
-6. Add rate limiting (`express-rate-limit`)
-7. Add a CloudWatch memory alarm alongside the CPU alarm
+1. **Enable PM2 cluster mode** — uses all CPU cores instead of just one
+2. **Add Nginx** in front of the app for compression and serving static files
+3. **Move static assets to S3 + CloudFront** for faster delivery
+4. **Cache frequent API responses** (Redis or in-memory) to reduce repeat work
+5. **Scale up** — bigger instance or Auto Scaling + Load Balancer for real traffic
+6. **Add rate limiting** to protect against traffic spikes
+7. **Add a memory alarm** in CloudWatch alongside the existing CPU alarm
